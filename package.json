@@ -1,0 +1,19 @@
+{
+  "name": "pro-profit",
+  "version": "1.0.0",
+  "description": "Produces rent profit factor estimates for any house listed on Zillow.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Rent",
+    "Estimate",
+    "Zillow"
+  ],
+  "author": "John Mark",
+  "license": "ISC",
+  "dependencies": {
+    "xml2js": "^0.4.19"
+  }
+}
