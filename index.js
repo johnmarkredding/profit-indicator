@@ -27,9 +27,9 @@ zillowSearch.url = `${zillowSearch.api}?zws-id=${zillowSearch.id}&address=${zill
 const server = http.createServer((req, res) => {
 	res.setHeader('Content-Type', 'text/html');
 	res.statusCode = 200;
-	let q = new URL(`http://${hostname}:${port}${req.url}`);	
+	let q = new URL(`http://${hostname}:${port}${req.url}`);
 	let filename = './index.html';
-	
+
 	if (q.pathname == '/') {
 		filename = './index.html';
 	} else {
@@ -56,15 +56,14 @@ const callZillow = http.get(zillowSearch.url, (res) => {
 
 	console.log(`Status Code: ${statusCode}`);
 	console.log(`Content-type: ${contentType}`);
-	
+
 	let data = '';
-	res.on('data', (chunk) => {
-		data += chunk;
-	});
+	res.on('data', (chunk) => (data += chunk));
 	res.on('end', () => {
 		parseXML(data, (err, result) => {
+			console.log(result);
 			result = result['SearchResults:searchresults'].response[0].results[0].result[0];
-			
+
 			zillowProperty.price = result.zestimate[0].amount[0]._;
 			zillowProperty.rent = result.rentzestimate[0].amount[0]._ * zillowProperty.yearlydivisions;
 			zillowProperty.tax = result.taxAssessment[0] * zillowProperty.taxrate;
@@ -74,9 +73,8 @@ const callZillow = http.get(zillowSearch.url, (res) => {
 			zillowProperty.mortgageperiod = 30;
 			zillowProperty.interest = 0.045;
 			zillowProperty.m = '';
-			
-			console.log(`Details: ${zillowProperty}`);
-			console.log(result);
+
+			console.log(`Details: ${zillowProperty.rent}`);
 		});
 	});
 });
